@@ -12,12 +12,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpHeight;
     private Rigidbody2D playerRigidBody;
+    private Animator anim;
    
     
     // Component referencing can be done in Awake, which is called upon boot-up of the program.
     void Awake()
     {   
         playerRigidBody = this.gameObject.GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Start is called during the first frame that *this* script is active.
@@ -82,6 +84,13 @@ public class PlayerController : MonoBehaviour
 
     void Animate()
     {
-
+        if(playerRigidBody.velocity != Vector2.zero )
+        {
+            anim.Play("Player_Run");
+        }
+        else
+        {
+            anim.Play("Player_Idle");
+        }
     }
 }
