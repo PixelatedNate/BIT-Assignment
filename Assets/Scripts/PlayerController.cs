@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     private float jumpHeight;
     private Rigidbody2D playerRigidBody;
     private Animator anim;
+    [SerializeField]
+    private bool isGrounded;
+    [SerializeField]
+    private bool isSlippery;
    
     
     // Component referencing can be done in Awake, which is called upon boot-up of the program.
@@ -20,6 +24,8 @@ public class PlayerController : MonoBehaviour
     {   
         playerRigidBody = this.gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        isGrounded=true;
+        isSlippery=false;
     }
 
     // Start is called during the first frame that *this* script is active.
@@ -37,17 +43,22 @@ public class PlayerController : MonoBehaviour
         {
             Movement();
         }
-        if(Input.GetButtonDown("Jump"))
+        if(Input.GetButtonDown("Jump") && isGrounded==true)
         {
+            
             Jump();
+            
         }
     
     }
+
+
 
     // "Regular" Update is used for anything *not* physics related. Call all methods that have nothing to do with physics here.
     // Like Fixed Update, "Regular Update" is called every frame.
     private void Update()
     {
+        
         Animate();
         Flip();
     }
@@ -55,12 +66,54 @@ public class PlayerController : MonoBehaviour
     // Sets a temporary float to whatever the Horizontal input of the player is, multiplies it by the speed value, and then assigns
     // the resulting value to our RigidBody's X velocity. We also ensure our Vertical isn't effected by simply stating that the value is
     // what ever the current value is on the Y axis.
+    //addforce if on a slippery tilemap
     void Movement()
     {
         float horizontal = Input.GetAxis("Horizontal") * speed;
         playerRigidBody.velocity = new Vector2(horizontal * Time.deltaTime, playerRigidBody.velocity.y);
+          if(isSlippery==true){
+              if(Input.GetAxis("Horizontal") > 0.1)
+        {
+                 playerRigidBody.AddForce(transform.right * 4, ForceMode2D.Impulse);
+
+        }
+                 if(Input.GetAxis("Horizontal") < -0.1)
+        {
+                 playerRigidBody.AddForce(-transform.right * 4, ForceMode2D.Impulse);
+
+        }
+        }
+
     }
 
+void OnCollisionEnter2D(Collision2D collision)
+{
+    Debug.Log("Entered");
+    if (collision.gameObject.CompareTag("Ground"))
+    {
+        isGrounded = true;
+    }
+        if (collision.gameObject.CompareTag("slippery"))
+    {
+        isGrounded = true;
+    }
+            if (collision.gameObject.CompareTag("slippery"))
+    {
+        isSlippery=true;
+    }
+}
+void OnCollisionExit2D(Collision2D collision)
+{
+    Debug.Log("Exited");
+    if (collision.gameObject.CompareTag("Ground"))
+    {
+        isGrounded = false;
+    }
+        if (collision.gameObject.CompareTag("slippery"))
+    {
+        isSlippery=false;
+    }
+}
 
     // Similar to Movement, it handles the Jumping via applying a value to the Y axis of the Rigidbody.
     void Jump()
@@ -75,10 +128,14 @@ public class PlayerController : MonoBehaviour
         if(Input.GetAxis("Horizontal") > 0.1)
         {
             transform.localScale = new Vector3(1, 1, 1);
+          
+
+            
         }
         else if(Input.GetAxis("Horizontal") < -0.1)
         {
             transform.localScale = new Vector3(-1, 1, 1);
+  
         }
     }
 
