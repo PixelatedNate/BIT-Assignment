@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    enum Direction
+    {
+        right,
+        left
+    }
 
     //Serialize Field will show the variables in the Unity Inspector and is generally used whilst developing to allow for quick alterations to variable values
     // before hard-coding it once it is discovered what values feel good.
@@ -17,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     [SerializeField]
     private bool isSlippery;
+    private Direction playerFacing;
    
     
     // Component referencing can be done in Awake, which is called upon boot-up of the program.
@@ -71,12 +77,14 @@ public class PlayerController : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal") * speed;
         playerRigidBody.velocity = new Vector2(horizontal * Time.deltaTime, playerRigidBody.velocity.y);
-          if(isSlippery==true){
-              if(Input.GetAxis("Horizontal") > 0.1)
+
+        if (isSlippery==true)
         {
+              if(Input.GetAxis("Horizontal") > 0.1)
+              {
                  playerRigidBody.AddForce(transform.right * 4, ForceMode2D.Impulse);
 
-        }
+              }
                  if(Input.GetAxis("Horizontal") < -0.1)
         {
                  playerRigidBody.AddForce(-transform.right * 4, ForceMode2D.Impulse);
@@ -125,18 +133,22 @@ void OnCollisionExit2D(Collision2D collision)
     // Checks if the player moves the character left or right and flips the graphics to the appropriate orientation.
     void Flip()
     {
-        if(Input.GetAxis("Horizontal") > 0.1)
+        //Checks to see if the player is already facing the right way
+        //If not, rotate him. The rotate is need for the Bullet Spawn Point. If we just create a new vector
+        //The spawn point will not rotate and you can only shoot right
+        if (Input.GetAxis("Horizontal") > 0.1 && playerFacing != Direction.right)
         {
-            transform.localScale = new Vector3(1, 1, 1);
-          
+            playerFacing = Direction.right;
+            transform.Rotate(0, 180, 0);
 
+        }
+        else if(Input.GetAxis("Horizontal") < -0.1 && playerFacing != Direction.left)
+        {
+            playerFacing = Direction.left;
+            transform.Rotate(0, 180, 0);
             
         }
-        else if(Input.GetAxis("Horizontal") < -0.1)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-  
-        }
+        
     }
 
     void Animate()
