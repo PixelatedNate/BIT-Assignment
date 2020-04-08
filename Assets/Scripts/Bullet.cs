@@ -21,4 +21,9 @@ public class Bullet : MonoBehaviour
     {
         
     }
+
+    private void OnBecameInvisible()
+    {
+        Destroy(this.gameObject);
+    }
 }
