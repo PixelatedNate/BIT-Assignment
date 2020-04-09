@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerObject = GameObject.FindWithTag("Player");
+        playerObject = GameObject.Find("Player");
         rbody.velocity = transform.right * speed;
         if (playerObject.transform.position.x > rbody.transform.position.x)
         {
