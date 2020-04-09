@@ -14,7 +14,11 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField]
     private float speed;
-    private bool canAttackPlayer;
+    [SerializeField]
+    private int enemyHealth;
+    [SerializeField]
+    private int eDamage;
+
     [SerializeField]
     private Direction direction = Direction.Right;
 
@@ -22,13 +26,26 @@ public class EnemyController : MonoBehaviour
     //This object will be a child of the enemy
     public Transform groundDetector;
 
+  
+ 
 
     private void Awake()
     {
-        canAttackPlayer = true;
+        
     }
     void Update()
     { 
+
+    }
+
+    public int getEnemyHealth() {
+        return enemyHealth;
+    }
+
+    public void EnemyDamaged(int Damage)
+    {
+       enemyHealth -= Damage;
+ 
 
     }
 
@@ -63,7 +80,7 @@ public class EnemyController : MonoBehaviour
         if (col.gameObject.tag == "Player" )
         {
  
-                col.gameObject.GetComponent<PlayerController>().PlayerDamaged(1);
+                col.gameObject.GetComponent<PlayerController>().PlayerDamaged(eDamage);
 
         }
     }

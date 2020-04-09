@@ -395,6 +395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
+  enemyHealth: 6
+  damage: 1
   direction: 2
   groundDetector: {fileID: 959701768}
 --- !u!61 &213083181
@@ -695,6 +697,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+  enemyHealth: 5
+  damage: 1
   direction: -2
   groundDetector: {fileID: 2139164060}
 --- !u!1 &399366407
@@ -1413,6 +1417,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
+  enemyHealth: 0
+  damage: 0
   direction: 2
   groundDetector: {fileID: 82546824}
 --- !u!61 &1102771986

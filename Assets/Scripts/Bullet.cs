@@ -5,12 +5,13 @@ public class Bullet : MonoBehaviour
     public GameObject playerObject;
     [SerializeField]
     private int speed;
-
+    private int damage;
     public Rigidbody2D rbody;
 
     // Start is called before the first frame update
     void Start()
     {
+        damage = 1;
         playerObject = GameObject.Find("Player");
         rbody.velocity = transform.right * speed;
         if (playerObject.transform.position.x > rbody.transform.position.x)
@@ -38,10 +39,24 @@ public class Bullet : MonoBehaviour
     {
         Debug.Log("Contact was made!");
         Destroy(gameObject);
-        if (col.gameObject.tag == "Destroyable" || col.gameObject.tag == "Enemy")
+        if (col.gameObject.tag == "Destroyable" )
         {
             Destroy(col.gameObject);
 
+        }
+       else if (col.gameObject.tag == "Enemy")
+        {
+            col.gameObject.GetComponent<EnemyController>().EnemyDamaged(damage);
+
+            int enemyHealth = col.gameObject.GetComponent<EnemyController>().getEnemyHealth();
+            print(enemyHealth);
+            if (enemyHealth < 1)
+            {
+                Destroy(col.gameObject);
+
+            
+
+            }
         }
     }
 }
