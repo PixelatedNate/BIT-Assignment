@@ -7,6 +7,7 @@ public class PlayerWeapon : MonoBehaviour
     public Transform BulletSpawnPoint;
 
     //We can later change this to a different bullet if we want
+    [SerializeField]
     public GameObject BulletType;
 
     // Start is called before the first frame update
@@ -36,6 +37,7 @@ public class PlayerWeapon : MonoBehaviour
         //Create a bullet object
         Instantiate(BulletType, BulletSpawnPoint.position, BulletSpawnPoint.rotation);
     }
+
 
 }
     

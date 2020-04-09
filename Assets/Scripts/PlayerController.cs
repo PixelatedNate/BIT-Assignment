@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
 void OnCollisionEnter2D(Collision2D collision)
 {
-    Debug.Log("Entered");
+ 
     if (collision.gameObject.CompareTag("Ground"))
     {
         isGrounded = true;
@@ -113,7 +113,7 @@ void OnCollisionEnter2D(Collision2D collision)
 }
 void OnCollisionExit2D(Collision2D collision)
 {
-    Debug.Log("Exited");
+  
     if (collision.gameObject.CompareTag("Ground"))
     {
         isGrounded = false;

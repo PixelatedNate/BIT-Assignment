@@ -15,11 +15,11 @@ public class Bullet : MonoBehaviour
         rbody.velocity = transform.right * speed;
         if (playerObject.transform.position.x > rbody.transform.position.x)
         {
-            rbody.velocity = transform.right * speed;
+           rbody.AddForce(transform.right * speed);
         }
        else if (playerObject.transform.position.x < rbody.transform.position.x)
         {
-            rbody.velocity = -transform.right * speed;
+            rbody.AddForce(-transform.right * speed);
         }
     }
 
@@ -32,5 +32,16 @@ public class Bullet : MonoBehaviour
     private void OnBecameInvisible()
     {
         Destroy(this.gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        Debug.Log("Contact was made!");
+        Destroy(gameObject);
+        if (col.gameObject.tag == "Destroyable" || col.gameObject.tag == "Enemy")
+        {
+            Destroy(col.gameObject);
+
+        }
     }
 }
