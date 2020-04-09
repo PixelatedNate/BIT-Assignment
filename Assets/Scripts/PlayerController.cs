@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,48 +22,96 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool isSlippery;
     private Direction playerFacing;
-   
-    
+    [SerializeField]
+    private Image[] healthpeanut;
+    [SerializeField]
+    private int playerHealth;
+
+
     // Component referencing can be done in Awake, which is called upon boot-up of the program.
     void Awake()
-    {   
+    {
+        playerHealth = 3;
         playerRigidBody = this.gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        isGrounded=true;
-        isSlippery=false;
+        isGrounded = true;
+        isSlippery = false;
+        healthpeanut = new Image[3];
+        healthpeanut[0] = gameObject.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Image>();
+        healthpeanut[1] = gameObject.transform.GetChild(1).GetChild(0).GetChild(1).gameObject.GetComponent<Image>(); ;
+        healthpeanut[2] = gameObject.transform.GetChild(1).GetChild(0).GetChild(2).gameObject.GetComponent<Image>(); ;
     }
 
     // Start is called during the first frame that *this* script is active.
     // It's good to initialize variables in Start.
     private void Start()
     {
-
+        UpdateHealth();
     }
 
     // Fixed Update is used for anything physics related. Call all methods that manipulate or use physics here.
     // Fixed Update, like "Regular" Update, is called every frame.
     private void FixedUpdate()
     {
-        if(Input.GetAxis("Horizontal") != 0)
+        if (Input.GetAxis("Horizontal") != 0)
         {
             Movement();
         }
-        if(Input.GetButtonDown("Jump") && isGrounded==true)
+        if (Input.GetButtonDown("Jump") && isGrounded == true)
         {
-            
+
             Jump();
-            
+
         }
-    
+
+    }
+    //public function so we can damage player from anywhere
+    public void PlayerDamaged(int Damage)
+    {
+        playerHealth -= Damage;
+
     }
 
+    //updates players health gui
+    void UpdateHealth()
+    {
+        switch (playerHealth)
+        {
+            case 1: // player has 1 health
+                healthpeanut[0].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Filled)");
+                healthpeanut[1].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Empty)");
+                healthpeanut[2].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Empty)");
+                break;
+            case 2: //  player has 2 health
+
+                healthpeanut[0].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Filled)");
+                healthpeanut[1].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Filled)");
+                healthpeanut[2].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Empty)");
+                break;
+            case 3: //  player has 3 health
+                    // healthpeanut[2];
+                healthpeanut[0].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Filled)");
+                healthpeanut[1].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Filled)");
+                healthpeanut[2].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Filled)");
+                break;
+            default:
+                //player has died
+
+                healthpeanut[0].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Empty)");
+                healthpeanut[1].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Empty)");
+                healthpeanut[2].sprite = Resources.Load<Sprite>("Art/Peanut HUD (Empty)");
+                break;
+
+        }
+
+    }
 
 
     // "Regular" Update is used for anything *not* physics related. Call all methods that have nothing to do with physics here.
     // Like Fixed Update, "Regular Update" is called every frame.
     private void Update()
     {
-        
+
         Animate();
         Flip();
     }
@@ -78,51 +125,54 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal") * speed;
         playerRigidBody.velocity = new Vector2(horizontal * Time.deltaTime, playerRigidBody.velocity.y);
 
-        if (isSlippery==true)
+        if (isSlippery == true)
         {
-              if(Input.GetAxis("Horizontal") > 0.1)
-              {
-                 playerRigidBody.AddForce(transform.right * 4, ForceMode2D.Impulse);
+            if (Input.GetAxis("Horizontal") > 0.1)
+            {
+                playerRigidBody.AddForce(transform.right * 4, ForceMode2D.Impulse);
 
-              }
-                 if(Input.GetAxis("Horizontal") < -0.1)
+            }
+            if (Input.GetAxis("Horizontal") < -0.1)
+            {
+                playerRigidBody.AddForce(-transform.right * 4, ForceMode2D.Impulse);
+
+            }
+        }
+
+    }
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        UpdateHealth();
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        UpdateHealth();
+        if (collision.gameObject.CompareTag("Ground"))
         {
-                 playerRigidBody.AddForce(-transform.right * 4, ForceMode2D.Impulse);
-
+            isGrounded = true;
         }
+        if (collision.gameObject.CompareTag("slippery"))
+        {
+            isGrounded = true;
         }
-
-    }
-
-
-void OnCollisionEnter2D(Collision2D collision)
-{
- 
-    if (collision.gameObject.CompareTag("Ground"))
-    {
-        isGrounded = true;
-    }
         if (collision.gameObject.CompareTag("slippery"))
-    {
-        isGrounded = true;
+        {
+            isSlippery = true;
+        }
     }
-            if (collision.gameObject.CompareTag("slippery"))
+    void OnCollisionExit2D(Collision2D collision)
     {
-        isSlippery=true;
-    }
-}
-void OnCollisionExit2D(Collision2D collision)
-{
-  
-    if (collision.gameObject.CompareTag("Ground"))
-    {
-        isGrounded = false;
-    }
+        UpdateHealth();
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
         if (collision.gameObject.CompareTag("slippery"))
-    {
-        isSlippery=false;
+        {
+            isSlippery = false;
+        }
     }
-}
 
     // Similar to Movement, it handles the Jumping via applying a value to the Y axis of the Rigidbody.
     void Jump()
@@ -143,18 +193,18 @@ void OnCollisionExit2D(Collision2D collision)
             transform.Rotate(0, 180, 0);
 
         }
-        else if(Input.GetAxis("Horizontal") < -0.1 && playerFacing != Direction.left)
+        else if (Input.GetAxis("Horizontal") < -0.1 && playerFacing != Direction.left)
         {
             playerFacing = Direction.left;
             transform.Rotate(0, 180, 0);
-            
+
         }
-        
+
     }
 
     void Animate()
     {
-        if(playerRigidBody.velocity != Vector2.zero )
+        if (playerRigidBody.velocity != Vector2.zero)
         {
             anim.Play("Player_Run");
         }
