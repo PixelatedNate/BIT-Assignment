@@ -396,7 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.5
   enemyHealth: 6
-  eDamage: 0
+  eDamage: 1
   direction: 2
   groundDetector: {fileID: 959701768}
 --- !u!61 &213083181
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   enemyHealth: 5
-  eDamage: 0
+  eDamage: 1
   direction: -2
   groundDetector: {fileID: 2139164060}
 --- !u!1 &519420028
@@ -830,6 +830,7 @@ GameObject:
   - component: {fileID: 567126755}
   - component: {fileID: 567126754}
   - component: {fileID: 567126753}
+  - component: {fileID: 567126756}
   m_Layer: 0
   m_Name: Fly
   m_TagString: Untagged
@@ -921,6 +922,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &567126756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567126752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95923d31e62d064fadd00dc1bc4fd03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  enemyHealth: 4
+  eDamage: 1
+  direction: 2
+  groundDetector: {fileID: 0}
 --- !u!1 &841034669
 GameObject:
   m_ObjectHideFlags: 3
@@ -1172,8 +1190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  enemyHealth: 0
-  eDamage: 0
+  enemyHealth: 4
+  eDamage: 1
   direction: 2
   groundDetector: {fileID: 82546824}
 --- !u!61 &1102771986
@@ -3164,6 +3182,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203340581025601949, guid: a2ab8fd8e009525439a5b0eabac4d190,
+        type: 3}
+      propertyPath: jumpHeight
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203340581025601949, guid: a2ab8fd8e009525439a5b0eabac4d190,
+        type: 3}
+      propertyPath: speed
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 1203340581025601951, guid: a2ab8fd8e009525439a5b0eabac4d190,
         type: 3}

@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private Image[] healthpeanut;
     [SerializeField]
     private int playerHealth;
+    private bool jumping;
 
 
     // Component referencing can be done in Awake, which is called upon boot-up of the program.
@@ -54,8 +55,14 @@ public class PlayerController : MonoBehaviour
     //input checking should not be performed under fixed update, only the actual physics here
     private void FixedUpdate()
     {
-       
+        Movement();
 
+        if (Input.GetButton("Jump") && isGrounded == true)
+        {
+
+            Jump();
+
+        }
     }
     //public function so we can damage player from anywhere
     public void PlayerDamaged(int Damage)
@@ -103,16 +110,8 @@ public class PlayerController : MonoBehaviour
     // Like Fixed Update, "Regular Update" is called every frame.
     private void Update()
     {
-        if (Input.GetAxis("Horizontal") != 0)
-        {
-            Movement();
-        }
-        if (Input.GetButtonDown("Jump") && isGrounded == true)
-        {
 
-            Jump();
-
-        }
+  
         Animate();
         Flip();
     }
@@ -130,7 +129,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetAxis("Horizontal") > 0.1)
             {
-                playerRigidBody.AddForce(transform.right * 4, ForceMode2D.Impulse);
+                playerRigidBody.AddForce(transform.right * 4, ForceMode2D.Force);
 
             }
             if (Input.GetAxis("Horizontal") < -0.1)
@@ -157,7 +156,7 @@ public class PlayerController : MonoBehaviour
                 isSlippery = true;
             }
         }
-       
+
     }
     void OnCollisionExit2D(Collision2D collision)
     {
@@ -175,8 +174,7 @@ public class PlayerController : MonoBehaviour
     // Similar to Movement, it handles the Jumping via applying a value to the Y axis of the Rigidbody.
     void Jump()
     {
-        float vertical = jumpHeight * Time.deltaTime;
-        playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, vertical);
+        playerRigidBody.AddForce(transform.up * jumpHeight/100, ForceMode2D.Impulse);
     }
 
     // Checks if the player moves the character left or right and flips the graphics to the appropriate orientation.
