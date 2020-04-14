@@ -51,18 +51,10 @@ public class PlayerController : MonoBehaviour
 
     // Fixed Update is used for anything physics related. Call all methods that manipulate or use physics here.
     // Fixed Update, like "Regular" Update, is called every frame.
+    //input checking should not be performed under fixed update, only the actual physics here
     private void FixedUpdate()
     {
-        if (Input.GetAxis("Horizontal") != 0)
-        {
-            Movement();
-        }
-        if (Input.GetButtonDown("Jump") && isGrounded == true)
-        {
-
-            Jump();
-
-        }
+       
 
     }
     //public function so we can damage player from anywhere
@@ -111,7 +103,16 @@ public class PlayerController : MonoBehaviour
     // Like Fixed Update, "Regular Update" is called every frame.
     private void Update()
     {
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            Movement();
+        }
+        if (Input.GetButtonDown("Jump") && isGrounded == true)
+        {
 
+            Jump();
+
+        }
         Animate();
         Flip();
     }
@@ -148,18 +149,15 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         UpdateHealth();
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || (collision.gameObject.CompareTag("slippery")))
         {
             isGrounded = true;
+            if (collision.gameObject.CompareTag("slippery"))
+            {
+                isSlippery = true;
+            }
         }
-        if (collision.gameObject.CompareTag("slippery"))
-        {
-            isGrounded = true;
-        }
-        if (collision.gameObject.CompareTag("slippery"))
-        {
-            isSlippery = true;
-        }
+       
     }
     void OnCollisionExit2D(Collision2D collision)
     {
