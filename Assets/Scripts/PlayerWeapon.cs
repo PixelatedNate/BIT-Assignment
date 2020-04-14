@@ -1,19 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
     public Transform BulletSpawnPoint;
+    private int pdamage;
 
     //We can later change this to a different bullet if we want
     [SerializeField]
-    public GameObject BulletType;
+    private GameObject BulletType;
+    GameObject Projectile;
+    private Color ProjectileColour;
+
+
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        pdamage = 1;
+        ProjectileColour = Color.white;
     }
 
     // Update is called once per frame
@@ -27,6 +34,12 @@ public class PlayerWeapon : MonoBehaviour
 
     }
 
+   public void updateProjectile(int damage,Color colour) {
+        pdamage = damage;
+        ProjectileColour = colour;
+
+    }
+
     void FixedUpdate()
     { 
     }
@@ -35,9 +48,10 @@ public class PlayerWeapon : MonoBehaviour
     void Shoot()
     {
         //Create a bullet object
-        Instantiate(BulletType, BulletSpawnPoint.position, BulletSpawnPoint.rotation);
+        Projectile = Instantiate(BulletType, BulletSpawnPoint.position, BulletSpawnPoint.rotation);
+        Projectile.GetComponent<Bullet>().setDamage(pdamage);
+        Projectile.GetComponent<Bullet>().setProjectileColour(ProjectileColour);
     }
-
 
 }
     

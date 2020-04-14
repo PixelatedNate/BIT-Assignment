@@ -91,7 +91,7 @@ public class EnemyController : MonoBehaviour
     {
         //Create a raycast variable that is looking down and shooting a ray downward
         RaycastHit2D is_ground = Physics2D.Raycast(groundDetector.position, Vector2.down);
-
+       
         //If the ray doesn't collides with something, it means there is no platform, so change direction
         if(is_ground.collider == false)
         {

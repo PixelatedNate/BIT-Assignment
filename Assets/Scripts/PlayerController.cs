@@ -71,9 +71,27 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    //public function so we can damage player from anywhere
+    public void PlayerHealed(int Damage)
+    {
+        playerHealth += Damage;
+
+    }
+
     //updates players health gui
     void UpdateHealth()
     {
+        if (playerHealth > 3)
+        {
+            playerHealth = 3;
+        }
+        else if (playerHealth < 0)
+        {
+            playerHealth = 0;
+        }
+
+
+
         switch (playerHealth)
         {
             case 1: // player has 1 health
@@ -111,7 +129,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
-  
+
         Animate();
         Flip();
     }
@@ -174,7 +192,7 @@ public class PlayerController : MonoBehaviour
     // Similar to Movement, it handles the Jumping via applying a value to the Y axis of the Rigidbody.
     void Jump()
     {
-        playerRigidBody.AddForce(transform.up * jumpHeight/100, ForceMode2D.Impulse);
+        playerRigidBody.AddForce(transform.up * jumpHeight / 100, ForceMode2D.Impulse);
     }
 
     // Checks if the player moves the character left or right and flips the graphics to the appropriate orientation.

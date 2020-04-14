@@ -8,10 +8,16 @@ public class Bullet : MonoBehaviour
     private int damage;
     public Rigidbody2D rbody;
 
+    private void Awake()
+    {
+       
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
-        damage = 1;
+        
         playerObject = GameObject.Find("Player");
         rbody.velocity = transform.right * speed;
         if (playerObject.transform.position.x > rbody.transform.position.x)
@@ -30,6 +36,18 @@ public class Bullet : MonoBehaviour
 
     }
 
+    public void setDamage(int pdamage) {
+        
+  
+        damage = pdamage;
+
+    }
+
+    public void setProjectileColour(Color ProjectileColour1)
+    {
+
+        gameObject.GetComponent<SpriteRenderer>().color = ProjectileColour1;
+    }
     private void OnBecameInvisible()
     {
         Destroy(this.gameObject);
@@ -49,7 +67,7 @@ public class Bullet : MonoBehaviour
             col.gameObject.GetComponent<EnemyController>().EnemyDamaged(damage);
 
             int enemyHealth = col.gameObject.GetComponent<EnemyController>().getEnemyHealth();
-            print(enemyHealth);
+          
             if (enemyHealth < 1)
             {
                 Destroy(col.gameObject);
