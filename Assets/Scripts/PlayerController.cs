@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetAxis("Horizontal") < -0.1)
             {
-                playerRigidBody.AddForce(-transform.right * 4, ForceMode2D.Impulse);
+                playerRigidBody.AddForce(-transform.right * 4, ForceMode2D.Force);
 
             }
         }
