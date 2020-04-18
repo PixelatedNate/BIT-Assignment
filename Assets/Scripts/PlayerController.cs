@@ -218,13 +218,18 @@ public class PlayerController : MonoBehaviour
 
     void Animate()
     {
-        if (playerRigidBody.velocity != Vector2.zero)
+        if (playerRigidBody.velocity.x != 0 && isGrounded)
         {
             anim.Play("Player_Run");
         }
-        else
+        else if (playerRigidBody.velocity.x == 0 && isGrounded)
         {
             anim.Play("Player_Idle");
+        }
+
+        else if(!isGrounded)
+        {
+            anim.Play("Player_Jump");
         }
     }
 }
