@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
     public Transform BulletSpawnPoint;
-    private int pdamage;
-
-    //We can later change this to a different bullet if we want
+    private int pdamage;    
     [SerializeField]
     private GameObject BulletType;
     GameObject Projectile;
-    private Color ProjectileColour;
+    public Color ProjectileColour;
+    private Vector2? bTrajectory;
+    private float bTrajectileFall;
+    private String bEffect;
 
 
 
@@ -26,7 +28,7 @@ public class PlayerWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
             Shoot();
         }
@@ -34,14 +36,28 @@ public class PlayerWeapon : MonoBehaviour
 
     }
 
-   public void updateProjectile(int damage,Color colour) {
+
+
+    public void updateProjectile(String Effect,int damage, Color colour)
+    {
         pdamage = damage;
+
+        ProjectileColour = colour;
+
+    }
+
+    public void updateProjectile(String Effect,int damage, Color colour, Vector2? Trajectory, float TrajectileFall)
+    {
+        pdamage = damage;
+        bTrajectory = Trajectory;
+        bTrajectileFall = TrajectileFall;
+        bEffect = Effect;
         ProjectileColour = colour;
 
     }
 
     void FixedUpdate()
-    { 
+    {
     }
 
 
@@ -49,9 +65,13 @@ public class PlayerWeapon : MonoBehaviour
     {
         //Create a bullet object
         Projectile = Instantiate(BulletType, BulletSpawnPoint.position, BulletSpawnPoint.rotation);
+        //load custom bullet attributes here
+        Projectile.GetComponent<Bullet>().setEffect(bEffect);
         Projectile.GetComponent<Bullet>().setDamage(pdamage);
         Projectile.GetComponent<Bullet>().setProjectileColour(ProjectileColour);
+        Projectile.GetComponent<Bullet>().setTrajectory(bTrajectory);
+        Projectile.GetComponent<Bullet>().setTrajectileFall(bTrajectileFall);
     }
 
 }
-    
+
