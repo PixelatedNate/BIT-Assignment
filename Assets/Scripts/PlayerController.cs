@@ -11,8 +11,7 @@ public class PlayerController : MonoBehaviour
 
     //Serialize Field will show the variables in the Unity Inspector and is generally used whilst developing to allow for quick alterations to variable values
     // before hard-coding it once it is discovered what values feel good.
-    [SerializeField]
-    private float speed;
+    public float speed;
     [SerializeField]
     private float jumpHeight;
     private Rigidbody2D playerRigidBody;
@@ -27,6 +26,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int playerHealth;
     private bool jumping;
+    public bool damageImmune;
+    public float damageDuration;
+    private float durationTimer;
+    private SpriteRenderer playerSprite;
+    private Color defaultColor;
 
 
     // Component referencing can be done in Awake, which is called upon boot-up of the program.
@@ -37,6 +41,11 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         isGrounded = true;
         isSlippery = false;
+        damageImmune = false;
+        playerSprite = this.GetComponent<SpriteRenderer>();
+        defaultColor = playerSprite.color;
+
+
         healthpeanut = new Image[3];
         healthpeanut[0] = gameObject.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Image>();
         healthpeanut[1] = gameObject.transform.GetChild(1).GetChild(0).GetChild(1).gameObject.GetComponent<Image>(); ;
@@ -64,11 +73,18 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+
     //public function so we can damage player from anywhere
     public void PlayerDamaged(int Damage)
     {
-        playerHealth -= Damage;
-
+        //Prevents the player from taking damage while
+        //Immune and therfore flashing
+        if(damageImmune == false)
+        {
+            playerHealth -= Damage;
+            damageImmune = true;
+            durationTimer = damageDuration;         
+        }
     }
 
     //public function so we can damage player from anywhere
@@ -124,14 +140,45 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
     // "Regular" Update is used for anything *not* physics related. Call all methods that have nothing to do with physics here.
     // Like Fixed Update, "Regular Update" is called every frame.
     private void Update()
     {
-
-
         Animate();
         Flip();
+        DamageFlash();      
+    }
+
+    private void DamageFlash()
+    {
+        //If player has taken damage, change him red and change his 
+        //Alpha value to emulate flashing
+        if (damageImmune)
+        {
+            
+            if (durationTimer > damageDuration * 0.66f)
+            {
+                playerSprite.color = new Color(1, 0.09f, 0.09f, 0f);
+            }
+            else if (durationTimer > damageDuration * 0.33f)
+            {
+                playerSprite.color = new Color(1, 0.09f, 0.09f, 1f);
+            }
+            else if (durationTimer > 0)
+            {
+                playerSprite.color = new Color(1, 0.09f, 0.09f, 0f);
+            }
+            else
+            {
+                //Change him back to default and remove immunity
+                playerSprite.color = defaultColor;
+                damageImmune = false;
+            }
+
+            durationTimer -= Time.deltaTime;
+
+        }
     }
 
     // Sets a temporary float to whatever the Horizontal input of the player is, multiplies it by the speed value, and then assigns

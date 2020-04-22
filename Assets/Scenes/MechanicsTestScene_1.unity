@@ -1185,6 +1185,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1055973019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1203340581025601923, guid: a2ab8fd8e009525439a5b0eabac4d190,
+    type: 3}
+  m_PrefabInstance: {fileID: 12986461582542511}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1055973025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055973019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27423a8cb1d159f4b829e2ee4517fe0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipped: 1
+  dashDuration: 0.08
+  dashSpeedMultiplier: 1.15
 --- !u!4 &1073077504 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1203340583009418245, guid: a2ab8fd8e009525439a5b0eabac4d190,
@@ -3756,6 +3777,11 @@ PrefabInstance:
         type: 3}
       propertyPath: speed
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203340581025601949, guid: a2ab8fd8e009525439a5b0eabac4d190,
+        type: 3}
+      propertyPath: damageDuration
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 1203340581025601951, guid: a2ab8fd8e009525439a5b0eabac4d190,
         type: 3}
