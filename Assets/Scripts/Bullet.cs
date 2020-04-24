@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Specialized;
+using System.Runtime.Versioning;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -70,7 +71,7 @@ public class Bullet : MonoBehaviour
             float DistanceX = playerObject.transform.position.x - rbody.transform.position.x;
 
             float DistanceY = playerObject.transform.position.y - rbody.transform.position.y;
-            if (DistanceX + DistanceY < 2 || DistanceX + DistanceY<-2)
+            if (DistanceX + DistanceY < 2 || DistanceX + DistanceY < -2)
             {
                 rbody.AddForce(-transform.up * speed / TrajectileFall);
             }
@@ -115,10 +116,14 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+
+
     void OnTriggerEnter2D(Collider2D col)
     {
 
-        Destroy(gameObject);
+
+
+
         if (col.gameObject.tag == "Destroyable")
         {
             Destroy(col.gameObject);
@@ -133,10 +138,17 @@ public class Bullet : MonoBehaviour
             if (enemyHealth < 1)
             {
                 Destroy(col.gameObject);
-
-
-
             }
+
         }
+        else if (Effect== "GumBounce") {
+            Instantiate(Resources.Load("Prefabs/Gum Explosion"), col.transform.position ,col.transform.rotation);
+        }
+
+
+
+
+        Destroy(gameObject);
     }
+
 }
