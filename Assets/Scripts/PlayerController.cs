@@ -19,13 +19,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool isGrounded;
     [SerializeField]
+    private bool isJumping;
+    [SerializeField]
+    private float jumpDuration;
+    [SerializeField]
     private bool isSlippery;
     private Direction playerFacing;
     [SerializeField]
     private Image[] healthpeanut;
     [SerializeField]
     private int playerHealth;
-    private bool jumping;
     public bool damageImmune;
     public float damageDuration;
     private float durationTimer;
@@ -66,12 +69,24 @@ public class PlayerController : MonoBehaviour
     {
         Movement();
 
-        if (Input.GetButton("Jump") && isGrounded == true)
+        if (Input.GetButton("Jump") && isGrounded == true && isJumping == false)
         {
 
             Jump();
 
         }
+
+        if (isJumping == true)
+        {
+
+            jumpDuration -= Time.deltaTime;
+
+            if (jumpDuration <= 0)
+            {
+                isJumping = false;
+            }
+        }
+
     }
 
     //public function so we can damage player from anywhere
@@ -239,7 +254,13 @@ public class PlayerController : MonoBehaviour
     // Similar to Movement, it handles the Jumping via applying a value to the Y axis of the Rigidbody.
     void Jump()
     {
-        playerRigidBody.AddForce(transform.up * jumpHeight / 100, ForceMode2D.Impulse);
+        if (isGrounded == true)
+        {
+            playerRigidBody.AddForce(transform.up * jumpHeight / 100, ForceMode2D.Impulse);
+
+            isJumping = true;
+            jumpDuration = 0.6f;
+        }
     }
 
     // Checks if the player moves the character left or right and flips the graphics to the appropriate orientation.
