@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Gum_Explosion.cs" />
+     <Compile Include="Assets\MainMenu_Handler.cs" />
      <Compile Include="Assets\Scripts\Bullet.cs" />
      <Compile Include="Assets\Scripts\DashAbility.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
