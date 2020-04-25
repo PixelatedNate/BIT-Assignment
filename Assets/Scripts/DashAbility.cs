@@ -5,11 +5,14 @@ public class DashAbility : MonoBehaviour
     //If that player has the ability equipped or not
     public bool equipped;
     public float dashDuration;
+    private float dashCooldown; 
+    //dashCooldownLength is a forced time between dashing
+    public float dashCooldownLength;
     //Keep multiplier small, about 1.1 / 1.2
     public float dashSpeedMultiplier;
     //Used to time the dash duration
-    private float dashTimer;
-    private bool dashActive;
+    private float dashTimer; 
+    private bool dashActive; 
     //Keep a reference to the daulft speed
     private float defaultSpeed;
     Rigidbody2D player;
@@ -27,13 +30,15 @@ public class DashAbility : MonoBehaviour
     {
         if (equipped)
         {
-            if (!dashActive)
+            if (!dashActive && dashCooldown <= 0)
             {
-                //If player is not currently dashing
+                //If player is not currently dashing and dash is off cooldown
                 if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
                     defaultSpeed = player.GetComponent<PlayerController>().speed;
                     dashActive = true;
+                    dashCooldown = dashCooldownLength;
+                    dashTimer = dashDuration;
                 }
 
             }
@@ -41,7 +46,7 @@ public class DashAbility : MonoBehaviour
             {
                 //Player is dashing 
                 //While active multiply the players velocity
-                if (dashTimer > 0)
+                if (dashTimer > 0 && dashCooldown >= 0)
                 {
                     dashTimer -= Time.deltaTime;
                     player.GetComponent<PlayerController>().speed *= dashSpeedMultiplier;
@@ -50,9 +55,15 @@ public class DashAbility : MonoBehaviour
                 {
                     //reset
                     dashActive = false;
-                    dashTimer = dashDuration;
                     player.GetComponent<PlayerController>().speed = defaultSpeed;
+                    if (dashCooldown >= 0)
+                    {
+                        //Wait for cooldown before enabling dash
+                        dashCooldown -= Time.deltaTime;
+                    }
+
                 }
+                
             }
 
         }
