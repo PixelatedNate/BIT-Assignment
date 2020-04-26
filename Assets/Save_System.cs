@@ -1,4 +1,4 @@
-﻿using System.Security.Policy;
+﻿
 using UnityEngine;
 
 public class Save_System : MonoBehaviour
@@ -15,8 +15,8 @@ public class Save_System : MonoBehaviour
     //store last check point touched and level when called
     void Save() {
 
-        lastCheckPoint=gameObject.find("Player").getComponent<playerController>().lastcheckpoint;
-        lastSceneName = gameObject.find("Player").getComponent<playerController>().lastSceneName;
+  //      lastCheckPoint=gameObject.find("Player").getComponent<playerController>().lastcheckpoint;
+  //      lastSceneName = gameObject.find("Player").getComponent<playerController>().lastSceneName;
 
 
     }
@@ -25,8 +25,8 @@ public class Save_System : MonoBehaviour
     //load last check point touched and level when called
     void Load() {
 
-        SceneManager.LoadScene(lastSceneName);
-        gameObject.find("Player").transform.position = gameObject.find(lastCheckPoint).transform.position;
+    //    SceneManager.LoadScene(lastSceneName);
+    //    gameObject.find("Player").transform.position = gameObject.find(lastCheckPoint).transform.position;
 
     }
 
