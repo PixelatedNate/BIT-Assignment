@@ -1,28 +1,43 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class System_Functions : MonoBehaviour
 {
 
-    private Boolean doneCheck;
+   private GameObject bulletSpawnPoint;
 
 
+    private void awake() {
 
-    public void sleep(float time) {
+        
 
-        StartCoroutine(Sleeping(time));
 
     }
 
 
-    public void sleepTillDestroy(float time,GameObject gumExplosion)
+
+    public void sleep(float time)
     {
-        StartCoroutine(SleepAndDestroy(time,gumExplosion));
+       
+        StartCoroutine(Sleeping(time));
+   
 
     }
+
+  
+
+
+    public void sleepTillDestroy(float time, GameObject gumExplosion)
+    {
+        StartCoroutine(SleepAndDestroy(time, gumExplosion));
+
+    }
+
+
+
 
 
 
@@ -31,7 +46,8 @@ public class System_Functions : MonoBehaviour
 
         //time to sleep for
         yield return new WaitForSeconds(time);
-        Debug.Log("Timer Finished");
+        
+     
 
     }
 

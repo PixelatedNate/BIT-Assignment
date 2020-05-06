@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Specialized;
 using System.Runtime.Versioning;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class Bullet : MonoBehaviour
     private string Effect;
     private float TrajectileFall;
     private Vector2? Trajectory;
+    private bool projDir; //true if projectile travels left otherwise false if travels right
+
     private void Awake()
     {
 
@@ -30,19 +33,9 @@ public class Bullet : MonoBehaviour
         rbody = GetComponent<Rigidbody2D>();
         rbody.velocity = transform.right * speed;
 
-        if (Effect == null)
-        {
-            //shoot to right
-            if (playerObject.transform.position.x > rbody.transform.position.x)
-            {
-                rbody.AddForce(transform.right * speed);
-            }
-            //shoot left
-            else if (playerObject.transform.position.x < rbody.transform.position.x)
-            {
-                rbody.AddForce(-transform.right * speed);
-            }
-        }
+
+
+        
         //List Effects Under Here
         if (Effect != null)
         {
@@ -71,8 +64,9 @@ public class Bullet : MonoBehaviour
             float DistanceX = playerObject.transform.position.x - rbody.transform.position.x;
 
             float DistanceY = playerObject.transform.position.y - rbody.transform.position.y;
-            if (DistanceX + DistanceY < 2 || DistanceX + DistanceY < -2)
+            if (DistanceX + DistanceY < 5 || DistanceX + DistanceY < -5)
             {
+         
                 rbody.AddForce(-transform.up * speed / TrajectileFall);
             }
         }
@@ -122,13 +116,16 @@ public class Bullet : MonoBehaviour
     {
 
 
+        if (col.gameObject.tag == "PowerUp") {
+            return;
+        }
 
-
-        if (col.gameObject.tag == "Destroyable")
+        else if (col.gameObject.tag == "Destroyable")
         {
             Destroy(col.gameObject);
 
         }
+
         else if (col.gameObject.tag == "Enemy")
         {
             col.gameObject.GetComponent<EnemyController>().EnemyDamaged(damage);
@@ -139,10 +136,12 @@ public class Bullet : MonoBehaviour
             {
                 Destroy(col.gameObject);
             }
+ 
 
         }
-        else if (Effect== "GumBounce") {
-            Instantiate(Resources.Load("Prefabs/Gum Explosion"), col.transform.position ,col.transform.rotation);
+        if (Effect == "GumBounce")
+        {
+            Instantiate(Resources.Load("Prefabs/Gum Explosion"), rbody.transform.position, rbody.transform.rotation);
         }
 
 
