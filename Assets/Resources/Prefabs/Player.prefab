@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1203340581025601948}
   - component: {fileID: 1203340581025601949}
   - component: {fileID: 1203340581025601922}
+  - component: {fileID: 1055973025}
+  - component: {fileID: 1055973026}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -52,6 +54,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -101,7 +104,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.004130125, y: -0.06565976}
+  m_Offset: {x: -0.004130125, y: -0.06}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -131,7 +134,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -147,12 +150,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910c1528329e68c4b807dee2a8285a9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 500
-  jumpHeight: 600
+  speed: 300
+  jumpHeight: 300
   isGrounded: 0
+  isJumping: 0
+  jumpDuration: 0
   isSlippery: 0
   healthpeanut: []
   playerHealth: 0
+  damageImmune: 0
+  damageDuration: 0.7
 --- !u!95 &1203340581025601922
 Animator:
   serializedVersion: 3
@@ -172,6 +179,34 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1055973025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203340581025601923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27423a8cb1d159f4b829e2ee4517fe0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipped: 1
+  dashDuration: 0.08
+  dashCooldownLength: 0
+  dashSpeedMultiplier: 1.15
+--- !u!114 &1055973026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203340581025601923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2aa1e30566c2540aa1c4fe5d8d865e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1203340581240480842
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +267,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -305,6 +342,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -501,6 +540,7 @@ MonoBehaviour:
   BulletSpawnPoint: {fileID: 1203340582570043532}
   BulletType: {fileID: 4489971753425216600, guid: 22e232b34917e8c4b951a146ae21bf23,
     type: 3}
+  ProjectileColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1203340582899605072
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,6 +601,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
