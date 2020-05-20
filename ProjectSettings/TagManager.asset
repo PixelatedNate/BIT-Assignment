@@ -8,6 +8,8 @@ TagManager:
   - slippery
   - Enemy
   - PowerUp
+  - Checkpoint
+  - Killzone
   layers:
   - Default
   - TransparentFX

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7171843826435068656}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0.523, y: -0.158, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7171843827299063238}
@@ -201,3 +201,5 @@ MonoBehaviour:
   eDamage: 1
   direction: 2
   groundDetector: {fileID: 7171843826435068671}
+  forwardDetectionDistance: 0.05
+  downwardDetectionDistance: 0.5

@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer playerSprite;
     private Color defaultColor;
 
+    public GameObject CheckPoint;
+
 
     // Component referencing can be done in Awake, which is called upon boot-up of the program.
     void Awake()
@@ -51,8 +53,8 @@ public class PlayerController : MonoBehaviour
 
         healthpeanut = new Image[3];
         healthpeanut[0] = gameObject.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Image>();
-        healthpeanut[1] = gameObject.transform.GetChild(1).GetChild(0).GetChild(1).gameObject.GetComponent<Image>(); ;
-        healthpeanut[2] = gameObject.transform.GetChild(1).GetChild(0).GetChild(2).gameObject.GetComponent<Image>(); ;
+        healthpeanut[1] = gameObject.transform.GetChild(1).GetChild(0).GetChild(1).gameObject.GetComponent<Image>(); 
+        healthpeanut[2] = gameObject.transform.GetChild(1).GetChild(0).GetChild(2).gameObject.GetComponent<Image>(); 
     }
 
     // Start is called during the first frame that *this* script is active.
@@ -162,7 +164,12 @@ public class PlayerController : MonoBehaviour
     {
         Animate();
         Flip();
-        DamageFlash();      
+        DamageFlash();
+
+        if(playerHealth <= 0)
+        {
+            playerDied();
+        }
     }
 
     private void DamageFlash()
@@ -237,6 +244,12 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if(collision.gameObject.CompareTag("Checkpoint"))
+        {
+            CheckPoint = collision.gameObject;
+            Physics2D.IgnoreCollision(collision.collider, this.GetComponent<Collider2D>());
+        }
+
     }
     void OnCollisionExit2D(Collision2D collision)
     {
@@ -282,6 +295,12 @@ public class PlayerController : MonoBehaviour
 
         }
 
+    }
+
+    private void playerDied()
+    {
+        this.transform.position = CheckPoint.transform.position;
+        PlayerHealed(3);
     }
 
     void Animate()
