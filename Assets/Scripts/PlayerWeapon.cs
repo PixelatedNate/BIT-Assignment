@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.Versioning;
 using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
@@ -16,7 +17,9 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField]
     private float battackSpeed;
     private GameObject timer;
-  
+    private Sprite bSprite;
+
+
     private bool canFire;
 
 
@@ -35,6 +38,7 @@ public class PlayerWeapon : MonoBehaviour
         pdamage = 1;
         ProjectileColour = Color.white;
         timer = GameObject.Find("Player");
+       
     }
 
     private IEnumerator resetAttackSpeed(float time)
@@ -66,17 +70,18 @@ public class PlayerWeapon : MonoBehaviour
 
 
 
-    public void updateProjectile(String Effect,int damage, Color colour, float attackSpeed)
+    public void updateProjectile(String Effect,int damage, Color colour, float attackSpeed, Sprite bulletSprite)
     {
         pdamage = damage;
         Debug.Log(attackSpeed);
         ProjectileColour = colour;
-
+        bEffect = Effect;
+        bSprite = bulletSprite;
         battackSpeed = attackSpeed;
 
     }
 
-    public void updateProjectile(String Effect,int damage, Color colour, Vector2? Trajectory, float TrajectileFall, float attackSpeed)
+    public void updateProjectile(String Effect,int damage, Color colour, Vector2? Trajectory, float TrajectileFall, float attackSpeed, Sprite bulletSprite)
     {
      
         pdamage = damage;
@@ -85,21 +90,33 @@ public class PlayerWeapon : MonoBehaviour
         bEffect = Effect;
         ProjectileColour = colour;
         battackSpeed = attackSpeed;
+        bSprite = bulletSprite;
 
     }
 
 
     void Shoot()
     {
-        //Create a bullet object
-        Projectile = Instantiate(BulletType, BulletSpawnPoint.position, BulletSpawnPoint.rotation);
-        //load custom bullet attributes here
-        Projectile.GetComponent<Bullet>().setEffect(bEffect);
-        Projectile.GetComponent<Bullet>().setDamage(pdamage);
-        Projectile.GetComponent<Bullet>().setProjectileColour(ProjectileColour);
-        Projectile.GetComponent<Bullet>().setTrajectory(bTrajectory);
-        Projectile.GetComponent<Bullet>().setTrajectileFall(bTrajectileFall);
 
+   
+            //Create a bullet object
+            Projectile = Instantiate(BulletType, BulletSpawnPoint.position, BulletSpawnPoint.rotation);
+
+        if (bEffect == "Nacho") { 
+        
+
+        
+        }
+            //load custom bullet attributes here
+            Projectile.GetComponent<Bullet>().setEffect(bEffect);
+            Projectile.GetComponent<Bullet>().setDamage(pdamage);
+            Projectile.GetComponent<Bullet>().setProjectileColour(ProjectileColour);
+            Projectile.GetComponent<Bullet>().setProjectileSprite(bSprite);
+            Projectile.GetComponent<Bullet>().setTrajectory(bTrajectory);
+            Projectile.GetComponent<Bullet>().setTrajectileFall(bTrajectileFall);
+
+
+        
     }
 
 }

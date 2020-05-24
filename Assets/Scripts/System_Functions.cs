@@ -56,7 +56,7 @@ public class System_Functions : MonoBehaviour
 
         //time to sleep for
         yield return new WaitForSeconds(time);
-        Debug.Log("Timer Finished");
+        
         Destroy(gumExplosion);
     }
 

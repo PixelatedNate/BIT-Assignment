@@ -18,6 +18,8 @@ public class ItemPickUp : MonoBehaviour
     private float TrajectileFall;
     [SerializeField]
     private float AttackSpeed;
+    [SerializeField]
+    private Sprite BulletSprite;
 
     //item effects happen here
     void OnTriggerEnter2D(Collider2D col)
@@ -41,16 +43,10 @@ public class ItemPickUp : MonoBehaviour
             if (Effect != null)
             {
 
-                //example condition here
-                if (Effect == "redProjectile")
-                {
-                    col.gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerWeapon>().updateProjectile(Effect,2, Color.red,AttackSpeed);
 
-                }
-
-                if (Effect == "Salt")
+                 if (Effect == "Salt")
                 {
-                    col.gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerWeapon>().updateProjectile(Effect, 2, Color.white, new Vector2(0, TrajectileHeight), TrajectileFall, AttackSpeed);
+                    col.gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerWeapon>().updateProjectile(Effect, 2, Color.white, new Vector2(0, TrajectileHeight), TrajectileFall, AttackSpeed, BulletSprite);
 
                 }
 
@@ -58,14 +54,21 @@ public class ItemPickUp : MonoBehaviour
                 //needs sprite changes for bullet
                 else if (Effect == "GumBounce")
                 {
-                    col.gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerWeapon>().updateProjectile(Effect,3, Color.red, new Vector2(0, TrajectileHeight), TrajectileFall,AttackSpeed);
+                    col.gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerWeapon>().updateProjectile(Effect,3, Color.red, new Vector2(0, TrajectileHeight), TrajectileFall,AttackSpeed, BulletSprite);
 
                 }
 
                 //needs sprite changes for bullet
                 else if (Effect == "WatermelonSeed")
                 {
-                    col.gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerWeapon>().updateProjectile(Effect, 1, Color.white, AttackSpeed);
+                    col.gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerWeapon>().updateProjectile(Effect, 1, Color.white, AttackSpeed, BulletSprite);
+
+                }
+
+                //needs sprite changes for bullet
+                else if (Effect == "Nacho")
+                {
+                    col.gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerWeapon>().updateProjectile(Effect, 1, Color.white, AttackSpeed,BulletSprite);
 
                 }
 

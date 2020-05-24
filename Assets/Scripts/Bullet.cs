@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Collections.Specialized;
-using System.Runtime.Versioning;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -15,6 +13,7 @@ public class Bullet : MonoBehaviour
     private string Effect;
     private float TrajectileFall;
     private Vector2? Trajectory;
+    private GameObject particles;
     private bool projDir; //true if projectile travels left otherwise false if travels right
 
     private void Awake()
@@ -28,7 +27,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
 
-
+        
         playerObject = GameObject.Find("Player");
         rbody = GetComponent<Rigidbody2D>();
         rbody.velocity = transform.right * speed;
@@ -44,6 +43,14 @@ public class Bullet : MonoBehaviour
                 rbody.AddForce(Trajectory.Value * speed);
             }
 
+            if (Effect == "Nacho")
+            {
+               
+             
+                playerObject.GetComponent<System_Functions>().sleepTillDestroy(0.07f, gameObject);
+
+            }
+
 
 
         }
@@ -56,20 +63,22 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float DistanceX = playerObject.transform.position.x - rbody.transform.position.x;
 
+        float DistanceY = playerObject.transform.position.y - rbody.transform.position.y;
 
 
         if (TrajectileFall != 0)
         {
-            float DistanceX = playerObject.transform.position.x - rbody.transform.position.x;
-
-            float DistanceY = playerObject.transform.position.y - rbody.transform.position.y;
+            
             if (DistanceX + DistanceY < 5 || DistanceX + DistanceY < -5)
             {
          
                 rbody.AddForce(-transform.up * speed / TrajectileFall);
             }
         }
+
+
 
     }
 
@@ -105,6 +114,17 @@ public class Bullet : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().color = ProjectileColour1;
     }
 
+
+    public void setProjectileSprite(Sprite bSprite)
+    {
+
+
+        if (bSprite != null)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = bSprite;
+        }
+    }
+
     private void OnBecameInvisible()
     {
         Destroy(this.gameObject);
@@ -126,7 +146,7 @@ public class Bullet : MonoBehaviour
 
         }
 
-        else if (col.gameObject.tag == "Enemy")
+        else if (col.gameObject.tag== "Enemy")
         {
             col.gameObject.GetComponent<EnemyController>().EnemyDamaged(damage);
 
